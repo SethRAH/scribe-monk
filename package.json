@@ -6,7 +6,7 @@
   "description": "Printable guides for scribes: Celtic plait grid",
   "license": "MIT",
   "engines": {
-    "node": ">=20"
+    "node": "^20.19 || >=22.12"
   },
   "scripts": {
     "dev": "vite",

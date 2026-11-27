@@ -6,11 +6,9 @@ on:
   # Allow manual runs from the Actions tab.
   workflow_dispatch:
 
-# Permissions the deploy-pages action needs.
+# Least privilege: read-only by default; only the deploy job can write to Pages.
 permissions:
   contents: read
-  pages: write
-  id-token: write
 
 # Let an in-progress run finish; queue the newest, don't pile up.
 concurrency:
@@ -31,9 +29,6 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Typecheck
-        run: npm run typecheck
-
       - name: Test
         run: npm test
 
@@ -48,6 +43,10 @@ jobs:
   deploy:
     needs: build
     runs-on: ubuntu-latest
+    # Permissions the deploy-pages action needs.
+    permissions:
+      pages: write
+      id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}

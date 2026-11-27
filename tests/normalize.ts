@@ -14,6 +14,8 @@ export interface Prim {
   /** Only meaningful when stroked. */
   width: number | null;
   dash: number[];
+  /** Line join; only meaningful when stroked. SVG and PDF both default to miter. */
+  join: string | null;
 }
 export interface TextPrim {
   kind: 'text';
@@ -102,6 +104,7 @@ export function normSvg(svg: string): SvgNorm {
         stroke,
         width: stroke ? +(a['stroke-width'] ?? 1) : null,
         dash: a['stroke-dasharray'] ? a['stroke-dasharray'].split(/[\s,]+/).map(Number) : [],
+        join: stroke ? (a['stroke-linejoin'] ?? 'miter') : null,
       });
   }
   return { root: attrs(rootTag), drawn };
@@ -122,6 +125,7 @@ export function normPdf(calls: readonly Call[]): { opts: unknown; drawn: Drawn[]
     textC: RGB = [0, 0, 0],
     width = 0.2,
     dash: number[] = [],
+    join = 'miter',
     size = 16,
     opts: unknown = null;
   const drawn: Drawn[] = [];
@@ -135,6 +139,7 @@ export function normPdf(calls: readonly Call[]): { opts: unknown; drawn: Drawn[]
         stroke: doStroke ? drawC : null,
         width: doStroke ? width : null,
         dash: doStroke ? dash : [],
+        join: doStroke ? join : null,
       });
   };
   for (const [op, ...a] of calls) {
@@ -161,6 +166,7 @@ export function normPdf(calls: readonly Call[]): { opts: unknown; drawn: Drawn[]
         size = a[0] as number;
         break;
       case 'setLineJoin':
+        join = String(a[0]);
         break;
       case 'text':
         drawn.push({ kind: 'text', text: a[0] as string, x: a[1] as number, y: a[2] as number, size, color: textC });
