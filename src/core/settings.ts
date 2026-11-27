@@ -1,7 +1,7 @@
 /** User settings (schema v1), validated field by field. All lengths in mm. */
 import { PAPERS, type OrientChoice, type Paper } from './page.ts';
 import { maxCord, type PlaitParams, type PlaitStyle } from './plait.ts';
-import { fmtU, type Unit } from './units.ts';
+import { fmtU, MM_PER_IN, type Unit } from './units.ts';
 
 export const STORAGE_KEY = 'scribe-monk:plait:v1';
 export const SCHEMA_VERSION = 1;
@@ -20,14 +20,14 @@ export interface Settings extends PlaitParams {
   fit: boolean;
 }
 
-/** Owner decision: inches + Letter. Lengths are the prototype's (mm). */
+/** Owner decision: inches + Letter, round inch sizes (stored in mm like everything else). */
 export const DEFAULTS: Readonly<Settings> = {
   unit: 'in',
-  tw: 20,
-  th: 20,
+  tw: 0.75 * MM_PER_IN,
+  th: 0.75 * MM_PER_IN,
   cols: 8,
   rows: 5,
-  cord: 6,
+  cord: 0.25 * MM_PER_IN,
   shade: '205',
   outline: true,
   tiles: true,

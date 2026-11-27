@@ -1,3 +1,4 @@
+import { fmt } from '../src/core/units.ts';
 import { DEFAULTS, parseSettings, serializeSettings, STORAGE_KEY, validateSettings, type Settings } from '../src/core/settings.ts';
 
 describe('settings (schema v1)', () => {
@@ -5,8 +6,11 @@ describe('settings (schema v1)', () => {
     expect(STORAGE_KEY).toBe('scribe-monk:plait:v1');
   });
 
-  it('defaults are inches + Letter', () => {
+  it('defaults are inches + Letter with round inch sizes', () => {
     expect(DEFAULTS.unit).toBe('in');
+    expect(fmt(DEFAULTS.tw, 'in')).toBe('0.75');
+    expect(fmt(DEFAULTS.th, 'in')).toBe('0.75');
+    expect(fmt(DEFAULTS.cord, 'in')).toBe('0.25');
     expect(DEFAULTS.paper).toBe('letter');
     expect(validateSettings({ ...DEFAULTS })).toEqual([]);
   });
@@ -70,7 +74,7 @@ describe('settings (schema v1)', () => {
     expect(validateSettings({ ...DEFAULTS, tw: 0 })).toEqual(['Tile width and height must be greater than zero.']);
     expect(validateSettings({ ...DEFAULTS, cols: 0 })).toEqual(['Tiles across and down must be whole numbers from 1 to 200.']);
     expect(validateSettings({ ...DEFAULTS, cord: -1 })).toEqual(['Cord thickness can’t be negative.']);
-    expect(validateSettings({ ...DEFAULTS, unit: 'mm', cord: 100 })).toEqual([
+    expect(validateSettings({ ...DEFAULTS, unit: 'mm', tw: 20, th: 20, cord: 100 })).toEqual([
       'Cord is too thick for this tile — the gaps vanish at 14.14 mm.',
     ]);
   });
