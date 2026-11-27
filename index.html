@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Scribe Monk</title>
+<link rel="icon" href="data:,">
+</head>
+<body>
+<header>
+  <h1>Scribe Monk</h1>
+  <h2 class="tool">Celtic Plait Grid</h2>
+  <p>Printable blocking-out grid: clipped tile corners and centre rhombuses shaded, cords left clear.</p>
+</header>
+<main>
+  <section class="panel" aria-label="Settings">
+    <fieldset>
+      <legend>Units</legend>
+      <div class="seg" id="units">
+        <button type="button" data-u="mm" aria-pressed="false">mm</button>
+        <button type="button" data-u="in" aria-pressed="true">inches</button>
+      </div>
+    </fieldset>
+    <fieldset>
+      <legend>Tile size</legend>
+      <div class="row">
+        <label><span>Width</span><input id="tw" type="number" min="1" step="any"></label>
+        <label><span>Height</span><input id="th" type="number" min="1" step="any"></label>
+      </div>
+    </fieldset>
+    <fieldset>
+      <legend>Grid</legend>
+      <div class="row">
+        <label><span>Tiles across</span><input id="cols" type="number" min="1" max="200" step="1"></label>
+        <label><span>Tiles down</span><input id="rows" type="number" min="1" max="200" step="1"></label>
+      </div>
+    </fieldset>
+    <fieldset>
+      <legend>Cord</legend>
+      <label><span>Thickness (measured across the cord)</span><input id="cord" type="number" min="0" step="any"></label>
+      <input id="cordRange" type="range" min="0" max="100" step="0.5" aria-label="Cord thickness slider">
+    </fieldset>
+    <fieldset>
+      <legend>Appearance</legend>
+      <label><span>Shading of the gaps</span>
+        <select id="shade">
+          <option value="235">Light grey</option>
+          <option value="205" selected>Medium grey</option>
+          <option value="165">Dark grey</option>
+          <option value="none">None (outline only)</option>
+        </select>
+      </label>
+      <label class="check"><input id="outline" type="checkbox" checked> Outline the gaps</label>
+      <label class="check"><input id="tiles" type="checkbox" checked> Show tile lines (dashed)</label>
+    </fieldset>
+    <fieldset>
+      <legend>Paper</legend>
+      <div class="row">
+        <label><span>Size</span>
+          <select id="paper">
+            <option value="letter">Letter</option>
+            <option value="a4">A4</option>
+            <option value="legal">Legal</option>
+            <option value="a3">A3</option>
+            <option value="tabloid">Tabloid</option>
+          </select>
+        </label>
+        <label><span>Orientation</span>
+          <select id="orient">
+            <option value="auto">Auto</option>
+            <option value="portrait">Portrait</option>
+            <option value="landscape">Landscape</option>
+          </select>
+        </label>
+      </div>
+      <label class="check"><input id="fit" type="checkbox"> Scale down to fit the page if too big</label>
+    </fieldset>
+    <div class="stats" id="stats"></div>
+    <div class="msg" id="err"></div>
+    <div class="msg" id="warn"></div>
+    <div class="btns">
+      <button class="btn" id="dlPdf" type="button">Download PDF</button>
+      <button class="btn alt" id="dlSvg" type="button">Download SVG</button>
+    </div>
+    <div id="status" role="status"></div>
+  </section>
+  <section>
+    <div class="stage"><div class="paper" id="paperBox"><div id="preview"></div></div></div>
+    <p class="hint">The PDF prints at true size with a 50&nbsp;mm / 2&nbsp;in check bar at the bottom. Print at
+      “Actual size” / 100%, not “Fit to page”. Cords cross at the midpoint of every tile edge.</p>
+  </section>
+</main>
+<script type="module" src="/src/main.ts"></script>
+</body>
+</html>
