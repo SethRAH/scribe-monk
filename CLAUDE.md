@@ -14,7 +14,9 @@ page — see `dev-log/`.
 - **jsPDF** from npm, **lazily imported** (`await import('jspdf')` in
   `src/ui/plait-app.ts`) only when the user clicks Download PDF. Keep it out
   of the initial bundle.
-- Node 22 (`.nvmrc`; `engines` allows `^20.19 || >=22.12`). Package manager: npm.
+- Node 24 (`.nvmrc`, which CI reads; `engines` allows `^22.12 || ^24 || >=26`,
+  Vitest's range; keep `engines.node` in step with Vitest's when upgrading it).
+  Package manager: npm.
 - Strict TypeScript, including `noUncheckedIndexedAccess`.
 
 ## Commands
@@ -85,10 +87,12 @@ change needs a new key/version, not a silent reinterpretation of v1.
 ## CI and deploy
 
 - `.github/workflows/ci.yml` — every pull request and push to `main`: `npm ci`,
-  `npm test`, `npm run build`.
+  `npm audit --audit-level=high`, `npm test`, `npm run build`.
 - `.github/workflows/deploy.yml` — push to `main` (or a manual run): test, build,
   publish `dist/` to GitHub Pages via `actions/deploy-pages`. Least-privilege
   permissions; only the deploy job can write to Pages.
+- `.github/dependabot.yml` — weekly npm and GitHub Actions updates; minor +
+  patch grouped into one PR per ecosystem, majors as separate PRs.
 - Vite `base` is `/scribe-monk/` (override with `BASE_PATH`).
 
 ## Docs
