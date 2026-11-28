@@ -15,7 +15,8 @@ page — see `dev-log/`.
   `src/ui/plait-app.ts`) only when the user clicks Download PDF. Keep it out
   of the initial bundle.
 - Node 24 (`.nvmrc`, which CI reads; `engines` allows `^22.12 || ^24 || >=26`,
-  Vitest's range). Package manager: npm.
+  Vitest's range; keep `engines.node` in step with Vitest's when upgrading it).
+  Package manager: npm.
 - Strict TypeScript, including `noUncheckedIndexedAccess`.
 
 ## Commands
