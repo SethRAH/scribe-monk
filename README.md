@@ -33,7 +33,7 @@ and the caption says so.
 
 ## Local development
 
-Needs Node 22 (see `.nvmrc`; `package.json` accepts `^20.19 || >=22.12`).
+Needs Node 24 (see `.nvmrc`; `package.json` accepts `^22.12 || ^24 || >=26`).
 
 ```sh
 npm install        # or `npm ci` for a clean install from the lockfile
